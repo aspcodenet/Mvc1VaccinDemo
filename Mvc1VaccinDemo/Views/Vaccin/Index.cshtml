@@ -1,0 +1,27 @@
+﻿@model Mvc1VaccinDemo.ViewModels.VaccinIndexViewModel
+
+@{
+    ViewData["Title"] = "Vacciner";
+}
+
+
+
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th scope="col">Namn</th>
+        <th scope="col">Supplier</th>
+    </tr>
+    </thead>
+    <tbody>
+        @foreach (var vaccin in Model.Vacciner)
+        {
+        <tr>
+            <td>@vaccin.Name</td>
+            <td>@vaccin.Supplier</td>
+            <td><a asp-controller="Vaccin" asp-action="Edit" asp-route-Id="@vaccin.Id" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Edit</a></td>
+        </tr>
+        }
+
+    </tbody>
+</table>
