@@ -40,6 +40,7 @@ namespace Mvc1VaccinDemo.Controllers
             var viewModel = new VaccinEditViewModel();
 
             var dbVaccin = _dbContext.Vacciner.Include(p=>p.Supplier).First(r => r.Id == Id);
+
             viewModel.Id = dbVaccin.Id;
             viewModel.EuOkStatus = dbVaccin.EuOkStatus;
             viewModel.Namn = dbVaccin.Namn;
