@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Mvc1VaccinDemo.Data
@@ -11,16 +12,17 @@ namespace Mvc1VaccinDemo.Data
 
         public enum VaccinType
         {
-            Unknown,
+            Unknown,    
             mRNA,
             Vector
         }
 
-        [MaxLength(100)]
-        public string Supplier { get; set; }
+        public Supplier Supplier { get; set; }
+
         [MaxLength(50)]
         public string Namn { get; set; }
         public DateTime ?EuOkStatus { get; set; } //Om NULL = inte godkänt  2020-01-07
         public VaccinType Type { get; set; }
+
     }
 }

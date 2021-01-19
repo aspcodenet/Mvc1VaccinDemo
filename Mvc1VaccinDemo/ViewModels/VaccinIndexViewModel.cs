@@ -4,7 +4,7 @@ namespace Mvc1VaccinDemo.ViewModels
 {
     public class VaccinIndexViewModel
     {
-
+        public string SearchWord { get; set; }
         public List<VaccinViewModel> Vacciner { get; set; } = new List<VaccinViewModel>();
     }
 
