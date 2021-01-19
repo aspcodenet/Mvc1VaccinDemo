@@ -6,21 +6,33 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Mvc1VaccinDemo.Data;
+using Mvc1VaccinDemo.ViewModels;
 
 namespace Mvc1VaccinDemo.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly ApplicationDbContext _dbContext;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext)
         {
             _logger = logger;
+            _dbContext = dbContext;
         }
 
         public IActionResult Index()
         {
-            return View();
+            var viewModel = new HomeIndexViewModel();
+            viewModel.AntalGjordaVaccineringar = _dbContext.Vaccineringar.Count();
+            viewModel.AntalGodkandaVaccin = _dbContext.Vacciner.Count(r=>r.EuOkStatus != null);
+            viewModel.NumberOfPersons = _dbContext.Personer.Count();
+            viewModel.NumberOfSuppliers = _dbContext.Suppliers.Count();
+            var senast = _dbContext.Vacciner.OrderByDescending(r => r.EuOkStatus).Take(1).First();
+            viewModel.SenastGodkand = senast.EuOkStatus.Value;
+            viewModel.SenastGodkandVaccin = senast.Namn;
+            return View(viewModel);
         }
 
         public IActionResult Privacy()

@@ -1,0 +1,29 @@
+﻿@model Mvc1VaccinDemo.ViewModels.VaccinNewViewModel  
+
+
+@{
+    ViewData["Title"] = "Nytt vaccin";
+}
+
+
+
+<form>
+    <div class="form-group">
+        <label asp-for="Supplier">Supplier</label>
+        <input type="text" class="form-control" asp-for="Supplier">
+    </div>
+    <div class="form-group">
+        <label asp-for="Namn">Namn</label>
+        <input type="text" class="form-control" asp-for="Namn">
+    </div>
+    <div class="form-group">
+        <label asp-for="EuOkStatus">Okstatus</label>
+        <input type="text" class="form-control" asp-for="EuOkStatus">
+    </div>
+    <div class="form-group">
+        <label asp-for="Type">Type</label>
+        <select asp-for="Type" asp-items="Model.Types" ></select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -35,6 +36,14 @@ namespace Mvc1VaccinDemo.Controllers
             return View(viewModel);
         }
 
+        public IActionResult New()
+        {
+            var viewModel = new VaccinNewViewModel();
+            viewModel.Types = GetTypeSelectListItems();
+
+            return View(viewModel);
+        }
+
         public IActionResult Edit(int Id)
         {
             var viewModel = new VaccinEditViewModel();
@@ -46,11 +55,19 @@ namespace Mvc1VaccinDemo.Controllers
             viewModel.Namn = dbVaccin.Namn;
             viewModel.Supplier = dbVaccin.Supplier.Name;
             viewModel.Type = (int)dbVaccin.Type;
-            viewModel.Types.Add(new SelectListItem("Okänd", "0"));
-            viewModel.Types.Add(new SelectListItem("mRNA", "1"));
-            viewModel.Types.Add(new SelectListItem("Vector", "2"));
+            viewModel.Types = GetTypeSelectListItems();
 
             return View(viewModel);
+        }
+
+
+        List<SelectListItem> GetTypeSelectListItems()
+        {
+            var list = new List<SelectListItem>();
+            list.Add(new SelectListItem("Okänd", "0"));
+            list.Add(new SelectListItem("mRNA", "1"));
+            list.Add(new SelectListItem("Vector", "2"));
+            return list;
         }
 
 
