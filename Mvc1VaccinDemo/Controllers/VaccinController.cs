@@ -19,16 +19,13 @@ namespace Mvc1VaccinDemo.Controllers
 
 
         //
-        // GET
-        public IActionResult Index()
+        // Vaccin/Index 
+        public IActionResult Index(string q)
         {
             var viewModel = new VaccinIndexViewModel();
 
-            //var list = _dbContext.Vacciner.ToList();
-            //var list2 = _dbContext.Vacciner.Include(r=>r.Supplier).ToList();
-
-
             viewModel.Vacciner = _dbContext.Vacciner.Include(r=>r.Supplier)
+                .Where(r => q == null || r.Namn.Contains(q))
                 .Select(dbVacc => new VaccinViewModel
             {
                 Id = dbVacc.Id,
@@ -62,6 +59,36 @@ namespace Mvc1VaccinDemo.Controllers
 
             return View(viewModel);
         }
+
+
+        /*
+            if (ModelState.IsValid)
+            {
+                //ALLT ÄR OK!!!
+                //Spara i databas...
+                //kanske redirect to index
+            }
+            return View(viewModel);
+         
+         *
+         */
+
+        //namn=varde&namn2=varde&namn3=varde
+        [HttpPost]
+        public IActionResult Edit(int Id, VaccinEditViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var dbVaccin = _dbContext.Vacciner.Include(p => p.Supplier)
+                    .First(r => r.Id == Id);
+                dbVaccin.Namn = viewModel.Namn;
+                dbVaccin.Type = (Vaccin.VaccinType) viewModel.Type;
+                _dbContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(viewModel);
+        }
+
 
 
         List<SelectListItem> GetTypeSelectListItems()

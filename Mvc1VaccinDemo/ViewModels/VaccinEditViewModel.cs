@@ -13,6 +13,7 @@ namespace Mvc1VaccinDemo.ViewModels
         [MaxLength(50)]
         public string Namn { get; set; }
         public DateTime? EuOkStatus { get; set; }
+        //
 
         public int Type { get; set; }
 
