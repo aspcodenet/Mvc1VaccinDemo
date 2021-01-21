@@ -7,8 +7,11 @@ namespace Mvc1VaccinDemo.ViewModels
 {
     public class VaccinNewViewModel
     {
-        [MaxLength(100)]
-        public string Supplier { get; set; }
+        [Range(1,100000, ErrorMessage = "Välj en din dumbom")]
+        public int SelectedSupplierId { get; set; }
+        public List<SelectListItem> AllSuppliers { get; set; } = new List<SelectListItem>();
+
+
         [MaxLength(50)]
         public string Namn { get; set; }
         public DateTime? EuOkStatus { get; set; }

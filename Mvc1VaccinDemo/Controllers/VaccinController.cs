@@ -43,6 +43,7 @@ namespace Mvc1VaccinDemo.Controllers
         {
             var viewModel = new VaccinNewViewModel();
             viewModel.Types = GetTypeSelectListItems();
+            viewModel.AllSuppliers = GetSuppliersListItems();
 
             return View(viewModel);
         }
@@ -53,13 +54,21 @@ namespace Mvc1VaccinDemo.Controllers
         {
             if (ModelState.IsValid)
             {
-                //"Insert" ny till dbContext.Vaccin
-
+                var dbVaccin = new Vaccin();
+                _dbContext.Vacciner.Add(dbVaccin);
+                dbVaccin.Supplier = _dbContext.Suppliers.First(r => r.Id == viewModel.SelectedSupplierId);
+                dbVaccin.Type = (Vaccin.VaccinType)viewModel.Type;
+                dbVaccin.Namn = viewModel.Namn;
+                dbVaccin.AntalDoser = viewModel.AntalDoser;
+                dbVaccin.EuOkStatus = viewModel.EuOkStatus;
+                dbVaccin.Comment = viewModel.Comment;
+                _dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
+            viewModel.AllSuppliers = GetSuppliersListItems();
+            viewModel.Types = GetTypeSelectListItems();
             return View(viewModel);
         }
-
 
         public IActionResult Edit(int Id)
         {
@@ -68,15 +77,32 @@ namespace Mvc1VaccinDemo.Controllers
             var dbVaccin = _dbContext.Vacciner.Include(p=>p.Supplier).First(r => r.Id == Id);
 
             viewModel.Id = dbVaccin.Id;
+            viewModel.SelectedSupplierId = dbVaccin.Supplier.Id;
+            viewModel.AllSuppliers = GetSuppliersListItems();
             viewModel.EuOkStatus = dbVaccin.EuOkStatus;
             viewModel.Namn = dbVaccin.Namn;
-            viewModel.Supplier = dbVaccin.Supplier.Name;
             viewModel.AntalDoser = dbVaccin.AntalDoser;
             viewModel.Comment = dbVaccin.Comment; 
+
             viewModel.Type = (int)dbVaccin.Type;
             viewModel.Types = GetTypeSelectListItems();
 
+            viewModel.IsActive = true;
+
             return View(viewModel);
+        }
+
+        private List<SelectListItem> GetSuppliersListItems()
+        {
+            var list = new List<SelectListItem>();
+            list.Add(new SelectListItem {  Value="0", Text = "..please select..."  });
+
+            list.AddRange(_dbContext.Suppliers.Select(r => new SelectListItem
+            {
+                Text = r.Name,
+                Value = r.Id.ToString()
+            }));
+            return list;
         }
 
 
@@ -86,6 +112,8 @@ namespace Mvc1VaccinDemo.Controllers
             if (ModelState.IsValid)
             {
                 var dbVaccin = _dbContext.Vacciner.Include(p => p.Supplier).First(r => r.Id == Id);
+                dbVaccin.Supplier = _dbContext.Suppliers.First(r => r.Id == viewModel.SelectedSupplierId);
+                dbVaccin.Type = (Vaccin.VaccinType)viewModel.Type;
                 dbVaccin.Namn = viewModel.Namn;
                 dbVaccin.AntalDoser = viewModel.AntalDoser;
                 dbVaccin.EuOkStatus = viewModel.EuOkStatus;
@@ -94,6 +122,8 @@ namespace Mvc1VaccinDemo.Controllers
                 return RedirectToAction("Index");
             }
 
+            viewModel.AllSuppliers = GetSuppliersListItems();
+            viewModel.Types = GetTypeSelectListItems();
             return View(viewModel);
         }
         /*
