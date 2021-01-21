@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Connections.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -19,13 +20,13 @@ namespace Mvc1VaccinDemo.Controllers
 
 
         //
-        // Vaccin/Index 
+        // Vaccin   Vaccin/Index
         public IActionResult Index(string q)
         {
             var viewModel = new VaccinIndexViewModel();
 
             viewModel.Vacciner = _dbContext.Vacciner.Include(r=>r.Supplier)
-                .Where(r => q == null || r.Namn.Contains(q))
+                .Where(r=> q == null || r.Namn.Contains(q) || r.Supplier.Name.Contains(q) )
                 .Select(dbVacc => new VaccinViewModel
             {
                 Id = dbVacc.Id,
@@ -36,6 +37,8 @@ namespace Mvc1VaccinDemo.Controllers
             return View(viewModel);
         }
 
+
+
         public IActionResult New()
         {
             var viewModel = new VaccinNewViewModel();
@@ -43,6 +46,20 @@ namespace Mvc1VaccinDemo.Controllers
 
             return View(viewModel);
         }
+
+        [HttpPost]
+
+        public IActionResult New(VaccinNewViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                //"Insert" ny till dbContext.Vaccin
+
+                return RedirectToAction("Index");
+            }
+            return View(viewModel);
+        }
+
 
         public IActionResult Edit(int Id)
         {
@@ -54,6 +71,8 @@ namespace Mvc1VaccinDemo.Controllers
             viewModel.EuOkStatus = dbVaccin.EuOkStatus;
             viewModel.Namn = dbVaccin.Namn;
             viewModel.Supplier = dbVaccin.Supplier.Name;
+            viewModel.AntalDoser = dbVaccin.AntalDoser;
+            viewModel.Comment = dbVaccin.Comment; 
             viewModel.Type = (int)dbVaccin.Type;
             viewModel.Types = GetTypeSelectListItems();
 
@@ -61,6 +80,22 @@ namespace Mvc1VaccinDemo.Controllers
         }
 
 
+        [HttpPost]
+        public IActionResult Edit(int Id, VaccinEditViewModel viewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var dbVaccin = _dbContext.Vacciner.Include(p => p.Supplier).First(r => r.Id == Id);
+                dbVaccin.Namn = viewModel.Namn;
+                dbVaccin.AntalDoser = viewModel.AntalDoser;
+                dbVaccin.EuOkStatus = viewModel.EuOkStatus;
+                dbVaccin.Comment = viewModel.Comment;
+                _dbContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(viewModel);
+        }
         /*
             if (ModelState.IsValid)
             {
@@ -69,29 +104,29 @@ namespace Mvc1VaccinDemo.Controllers
                 //kanske redirect to index
             }
             return View(viewModel);
-         
+
          *
          */
 
-        //namn=varde&namn2=varde&namn3=varde
-        [HttpPost]
-        public IActionResult Edit(int Id, VaccinEditViewModel viewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                var dbVaccin = _dbContext.Vacciner.Include(p => p.Supplier)
-                    .First(r => r.Id == Id);
-                dbVaccin.Namn = viewModel.Namn;
-                dbVaccin.Type = (Vaccin.VaccinType) viewModel.Type;
-                _dbContext.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            return View(viewModel);
-        }
+            ////namn=varde&namn2=varde&namn3=varde
+            //[HttpPost]
+            //public IActionResult Edit(int Id, VaccinEditViewModel viewModel)
+            //{
+            //    if (ModelState.IsValid)
+            //    {
+            //        var dbVaccin = _dbContext.Vacciner.Include(p => p.Supplier)
+            //            .First(r => r.Id == Id);
+            //        dbVaccin.Namn = viewModel.Namn;
+            //        dbVaccin.Type = (Vaccin.VaccinType) viewModel.Type;
+            //        _dbContext.SaveChanges();
+            //        return RedirectToAction("Index");
+            //    }
+            //    return View(viewModel);
+            //}
 
 
 
-        List<SelectListItem> GetTypeSelectListItems()
+            List<SelectListItem> GetTypeSelectListItems()
         {
             var list = new List<SelectListItem>();
             list.Add(new SelectListItem("Okänd", "0"));

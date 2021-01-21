@@ -14,10 +14,10 @@
                 </div>
 
                 <div class="card-body">
-                    <form asp-controller="Vaccin" asp-action="Edit" method="post">
+                    <form method="post" asp-controller="Vaccin" asp-action="Edit">
                         <div class="form-group">
                             <label asp-for="Supplier" class="form-control-label">Supplier</label>
-                            <input type="text" class="form-control" asp-for="Supplier">
+                            <input type="text" class="form-control"  asp-for="Supplier">
                         </div>
                         <div class="form-group">
                             <label asp-for="Namn">Namn</label>
@@ -30,6 +30,20 @@
                         <div class="form-group">
                             <label asp-for="Type">Type</label>
                             <select class="form-control" asp-for="Type" asp-items="Model.Types"></select>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label asp-for="AntalDoser">Antal doser</label>
+                            <input type="text" class="form-control" asp-for="AntalDoser">
+                            <span asp-validation-for="AntalDoser" class="input-validation-error"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="Comment">Comment</label>
+                            <textarea rows="5" cols="30"
+                                      class="form-control" asp-for="Comment"></textarea>
+                            <span asp-validation-for="Comment" class="field-validation-error"></span>
                         </div>
 
                         <button type="submit" class="btn btn-primary">Submit</button>

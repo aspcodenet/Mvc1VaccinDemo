@@ -24,5 +24,9 @@ namespace Mvc1VaccinDemo.Data
         public DateTime ?EuOkStatus { get; set; } //Om NULL = inte godkänt  2020-01-07
         public VaccinType Type { get; set; }
 
+
+        //Will be removed soon
+        public string Comment { get; set; }
+        public int AntalDoser { get; set; }
     }
 }
