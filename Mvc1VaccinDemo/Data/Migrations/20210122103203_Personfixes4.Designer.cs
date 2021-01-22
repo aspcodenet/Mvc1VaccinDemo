@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Mvc1VaccinDemo.Data;
 
 namespace Mvc1VaccinDemo.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210122103203_Personfixes4")]
+    partial class Personfixes4
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,12 +254,7 @@ namespace Mvc1VaccinDemo.Data.Migrations
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
 
-                    b.Property<int?>("VaccineringsFasId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("VaccineringsFasId");
 
                     b.ToTable("Personer");
                 });
@@ -338,25 +335,6 @@ namespace Mvc1VaccinDemo.Data.Migrations
                     b.ToTable("Vaccineringar");
                 });
 
-            modelBuilder.Entity("Mvc1VaccinDemo.Data.VaccineringsFas", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(30)")
-                        .HasMaxLength(30);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("VaccineringsFaser");
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -406,13 +384,6 @@ namespace Mvc1VaccinDemo.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("Mvc1VaccinDemo.Data.Person", b =>
-                {
-                    b.HasOne("Mvc1VaccinDemo.Data.VaccineringsFas", "VaccineringsFas")
-                        .WithMany()
-                        .HasForeignKey("VaccineringsFasId");
                 });
 
             modelBuilder.Entity("Mvc1VaccinDemo.Data.Vaccin", b =>

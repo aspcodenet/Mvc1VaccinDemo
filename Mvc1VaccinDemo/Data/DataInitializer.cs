@@ -12,6 +12,55 @@ namespace Mvc1VaccinDemo.Data
             dbContext.Database.Migrate();
             SeedSuppliers(dbContext);
             SeedVaccins(dbContext); //Color, Län , kommuner
+            SeedVaccinationsFaser(dbContext);
+            SeedPersoner(dbContext);
+        }
+
+        private static void SeedPersoner(ApplicationDbContext dbContext)
+        {
+            var person = dbContext.Personer.FirstOrDefault(r => r.Name == "Stefan Holmberg");
+            if (person == null)
+                dbContext.Personer.Add(new Person
+                {
+                    Name = "Stefan Holmberg",City="Teststad", PersonalNumber = "19720803-1111",
+                    EmailAddress = "stefan@stefan.se",PostalCode = 11122, PreliminaryNextVaccinDate = null,
+                    StreetAddress = "Testgatan 12b", VaccineringsFas = dbContext.VaccineringsFaser.First(r=>r.Name == "Fas 4")
+                });
+            person = dbContext.Personer.FirstOrDefault(r => r.Name == "Oliver Holmberg");
+            if (person == null)
+                dbContext.Personer.Add(new Person
+                {
+                    Name = "Oliver Holmberg",
+                    City="Teststad", PersonalNumber = "20080528-1111",
+                    EmailAddress = "oliver@oliver.se",PostalCode = 11133, PreliminaryNextVaccinDate = null,
+                    StreetAddress = "Testgatan 11b", VaccineringsFas = dbContext.VaccineringsFaser.First(r=>r.Name == "Ingen")
+                });
+            dbContext.SaveChanges();
+        }
+
+        private static void SeedVaccinationsFaser(ApplicationDbContext dbContext)
+        {
+            var riskGrupp = dbContext.VaccineringsFaser.FirstOrDefault(r => r.Name == "Ingen");
+            if (riskGrupp == null)
+                dbContext.VaccineringsFaser.Add(new VaccineringsFas { Name = "Ingen" });
+
+            riskGrupp = dbContext.VaccineringsFaser.FirstOrDefault(r => r.Name == "Fas 1");
+            if(riskGrupp == null)
+                dbContext.VaccineringsFaser.Add(new VaccineringsFas { Name = "Fas 1" });
+            
+            riskGrupp = dbContext.VaccineringsFaser.FirstOrDefault(r => r.Name == "Fas 2");
+            if (riskGrupp == null)
+                dbContext.VaccineringsFaser.Add(new VaccineringsFas { Name = "Fas 2" });
+
+            riskGrupp = dbContext.VaccineringsFaser.FirstOrDefault(r => r.Name == "Fas 3");
+            if (riskGrupp == null)
+                dbContext.VaccineringsFaser.Add(new VaccineringsFas { Name = "Fas 3" });
+
+            riskGrupp = dbContext.VaccineringsFaser.FirstOrDefault(r => r.Name == "Fas 4");
+            if (riskGrupp == null)
+                dbContext.VaccineringsFaser.Add(new VaccineringsFas { Name = "Fas 4" });
+
+            dbContext.SaveChanges();
         }
 
         private static void SeedSuppliers(ApplicationDbContext dbContext)

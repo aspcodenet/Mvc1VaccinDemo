@@ -17,5 +17,6 @@ namespace Mvc1VaccinDemo.Data
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<Person> Personer { get; set; }
         public DbSet<Vaccinering> Vaccineringar { get; set; }
+        public DbSet<VaccineringsFas> VaccineringsFaser { get; set; }
     }
 }

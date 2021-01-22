@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Mvc1VaccinDemo.Data;
 
-namespace Mvc1VaccinDemo.Data
+namespace Mvc1VaccinDemo.ViewModels
 {
-    public class Person
+    public class PersonEditViewModel
     {
         public int Id { get; set; }
 
@@ -15,19 +17,24 @@ namespace Mvc1VaccinDemo.Data
         public string PersonalNumber { get; set; }
 
         [MaxLength(100)]
+        [DataType(DataType.EmailAddress)]
         public string EmailAddress { get; set; }
+
         [MaxLength(100)]
         public string StreetAddress { get; set; }
         [MaxLength(100)]
         public string City { get; set; }
 
+        [Range(10000,99999)]
         public int PostalCode { get; set; }
 
-        public VaccineringsFas VaccineringsFas { get; set; }
 
-        public DateTime ?PreliminaryNextVaccinDate { get; set; }
+        [DataType(DataType.Date)]
+        public DateTime? PreliminaryNextVaccinDate { get; set; }
 
 
-        public List<Vaccinering> Vaccinering { get; set; }
+        public int SelectedVaccineringsFasId { get; set; }
+        public List<SelectListItem> AllaVaccineringsFaser { get; set; }
+
     }
 }

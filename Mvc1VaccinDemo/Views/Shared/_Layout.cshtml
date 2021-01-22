@@ -95,26 +95,28 @@
             <div class="text-gray-400 text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family">MAIN</div>
             <ul class="sidebar-menu list-unstyled">
                 <li class="sidebar-list-item"><a asp-controller="Home" asp-action="Index" class="sidebar-link text-muted active"><i class="o-home-1 mr-3 text-gray"></i><span>Home</span></a></li>
-                <li class="sidebar-list-item"><a asp-controller="Vaccin" asp-action="Index" class="sidebar-link text-muted"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Vaccinlista</span></a></li>
+                <li class="sidebar-list-item"><a asp-controller="Vaccin" asp-action="Index" class="sidebar-link text-muted"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Vacciner</span></a></li>
+                <li class="sidebar-list-item"><a asp-controller="Person" asp-action="Index" class="sidebar-link text-muted"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Personer</span></a></li>
+                <li class="sidebar-list-item"><a asp-controller="Faser" asp-action="Index" class="sidebar-link text-muted"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Vaccinationsfaser</span></a></li>
                 @if (SignInManager.IsSignedIn(User))
                 {
-    <li class="sidebar-list-item">
-        <a asp-area="Identity" asp-page="/Account/Manage/Index" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>My account</span></a>
-        <a asp-area="Identity" asp-page="/Account/Logout" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Logout</span></a>
-    </li>
+            <li class="sidebar-list-item">
+                <a asp-area="Identity" asp-page="/Account/Manage/Index" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>My account</span></a>
+                <a asp-area="Identity" asp-page="/Account/Logout" class="sidebar-link text-muted"><i class="o-exit-1 mr-3 text-gray"></i><span>Logout</span></a>
+            </li>
  }
-else
-{
-<li class="sidebar-list-item">
-    <a asp-area="Identity" asp-page="/Account/Login" class="sidebar-link text-muted">
-        <i class="o-exit-1 mr-3 text-gray"></i><span>Login</span>
-    </a>
-</li>
-                <li class="sidebar-list-item">
-                    <a asp-area="Identity" asp-page="/Account/Register" class="sidebar-link text-muted">
-                        <i class="o-exit-1 mr-3 text-gray"></i><span>Register</span>
-                    </a>
-                </li>
+        else
+        {
+            <li class="sidebar-list-item">
+                <a asp-area="Identity" asp-page="/Account/Login" class="sidebar-link text-muted">
+                    <i class="o-exit-1 mr-3 text-gray"></i><span>Login</span>
+                </a>
+            </li>
+                            <li class="sidebar-list-item">
+                                <a asp-area="Identity" asp-page="/Account/Register" class="sidebar-link text-muted">
+                                    <i class="o-exit-1 mr-3 text-gray"></i><span>Register</span>
+                                </a>
+                            </li>
 }
             </ul>
             @*<div class="text-gray-400 text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family">EXTRAS</div>
