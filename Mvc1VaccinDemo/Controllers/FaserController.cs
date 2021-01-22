@@ -6,19 +6,20 @@ using Mvc1VaccinDemo.ViewModels;
 
 namespace Mvc1VaccinDemo.Controllers
 {
-    public class FaserController : Controller
+    public class FaserController : BaseController
     {
-        private readonly ApplicationDbContext _dbContext;
 
-        public FaserController(ApplicationDbContext dbContext)
+        public FaserController(ApplicationDbContext dbContext) 
+            :base(dbContext)
+
         {
-            _dbContext = dbContext;
         }
 
         // GET
         public IActionResult Index(string q)
         {
             var viewModel = new FaserIndexViewModel();
+            SetupBaseViewModel(viewModel);
 
             viewModel.Faser = _dbContext.VaccineringsFaser
                 .Where(r => q == null || r.Name.Contains(q))
@@ -30,5 +31,21 @@ namespace Mvc1VaccinDemo.Controllers
 
             return View(viewModel);
         }
+
+
+        public IActionResult Edit(int Id)
+        {
+            var viewModel = new VaccineringsFasEditViewModel();
+            SetupBaseViewModel(viewModel);
+
+            var dbPerson = _dbContext.VaccineringsFaser.First(r => r.Id == Id);
+
+            viewModel.Id = dbPerson.Id;
+            viewModel.Name = dbPerson.Name;
+            viewModel.Comment = dbPerson.Description;
+
+            return View(viewModel);
+        }
+
     }
 }

@@ -11,20 +11,21 @@ using Mvc1VaccinDemo.ViewModels;
 
 namespace Mvc1VaccinDemo.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly ApplicationDbContext _dbContext;
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext)
+            : base(dbContext)
         {
             _logger = logger;
-            _dbContext = dbContext;
         }
 
         public IActionResult Index()
         {
             var viewModel = new HomeIndexViewModel();
+            SetupBaseViewModel(viewModel);
+
             viewModel.AntalGjordaVaccineringar = _dbContext.Vaccineringar.Count();
             viewModel.AntalGodkandaVaccin = _dbContext.Vacciner.Count(r=>r.EuOkStatus != null);
             viewModel.NumberOfPersons = _dbContext.Personer.Count();
