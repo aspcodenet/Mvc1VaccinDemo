@@ -13,9 +13,9 @@ namespace Mvc1VaccinDemo.Controllers
         {
             _dbContext = dbContext;
         }
-        protected void SetupBaseViewModel(BaseViewModel model)
+        protected void SetupBaseViewModel()
         {
-            model.AllaFaser = _dbContext.VaccineringsFaser
+            ViewData["AllaFaser"] = _dbContext.VaccineringsFaser
                 .Select(dbVacc => new FaserIndexViewModel.FasViewModel
                 {
                     Id = dbVacc.Id,

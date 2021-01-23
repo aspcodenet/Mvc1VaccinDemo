@@ -19,7 +19,7 @@ namespace Mvc1VaccinDemo.Controllers
         public IActionResult Index(string q)
         {
             var viewModel = new FaserIndexViewModel();
-            SetupBaseViewModel(viewModel);
+            SetupBaseViewModel();
 
             viewModel.Faser = _dbContext.VaccineringsFaser
                 .Where(r => q == null || r.Name.Contains(q))
@@ -36,7 +36,7 @@ namespace Mvc1VaccinDemo.Controllers
         public IActionResult Edit(int Id)
         {
             var viewModel = new VaccineringsFasEditViewModel();
-            SetupBaseViewModel(viewModel);
+            SetupBaseViewModel();
 
             var dbPerson = _dbContext.VaccineringsFaser.First(r => r.Id == Id);
 

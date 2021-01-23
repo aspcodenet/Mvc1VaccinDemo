@@ -1,6 +1,6 @@
 ﻿namespace Mvc1VaccinDemo.ViewModels
 {
-    public class VaccineringsFasEditViewModel : BaseViewModel
+    public class VaccineringsFasEditViewModel 
     {
         public int Id { get; set; }
         public string Name { get; set; }

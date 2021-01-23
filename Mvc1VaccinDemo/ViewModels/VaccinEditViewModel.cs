@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Mvc1VaccinDemo.ViewModels
 {
-    public class VaccinEditViewModel : BaseViewModel
+    public class VaccinEditViewModel 
     {
         public int Id { get; set; }
 

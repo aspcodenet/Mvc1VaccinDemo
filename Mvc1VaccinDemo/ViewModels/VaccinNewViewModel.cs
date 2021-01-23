@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Mvc1VaccinDemo.ViewModels
 {
-    public class VaccinNewViewModel : BaseViewModel
+    public class VaccinNewViewModel 
     {
         [Range(1,100000, ErrorMessage = "Välj en din dumbom")]
         public int SelectedSupplierId { get; set; }

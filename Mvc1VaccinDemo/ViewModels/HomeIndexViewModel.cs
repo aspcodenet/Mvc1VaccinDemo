@@ -13,7 +13,7 @@ Namn på senaste vaccinet som godkänts
 Datum för     senaste vaccinet som godkänts
      *
      */
-    public class HomeIndexViewModel : BaseViewModel //DTO
+    public class HomeIndexViewModel  //DTO
     {
         public int AntalGjordaVaccineringar { get; set; }
         public int AntalGodkandaVaccin { get; set; }

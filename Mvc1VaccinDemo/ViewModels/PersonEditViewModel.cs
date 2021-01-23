@@ -6,7 +6,7 @@ using Mvc1VaccinDemo.Data;
 
 namespace Mvc1VaccinDemo.ViewModels
 {
-    public class PersonEditViewModel : BaseViewModel
+    public class PersonEditViewModel 
     {
         public int Id { get; set; }
 

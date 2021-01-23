@@ -2,7 +2,7 @@
 
 namespace Mvc1VaccinDemo.ViewModels
 {
-    public class PersonIndexViewModel : BaseViewModel
+    public class PersonIndexViewModel 
 
     {
     public string q { get; set; }

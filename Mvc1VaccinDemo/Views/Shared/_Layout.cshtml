@@ -1,7 +1,15 @@
-﻿@model Mvc1VaccinDemo.ViewModels.BaseViewModel
-@using Microsoft.AspNetCore.Identity
+﻿@using Microsoft.AspNetCore.Identity
+@using Mvc1VaccinDemo.ViewModels
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
+
+@{
+    List<FaserIndexViewModel.FasViewModel> allaFaser = (List<FaserIndexViewModel.FasViewModel>) ViewData["AllaFaser"];
+    if (allaFaser == null)
+    {
+        allaFaser = new List<FaserIndexViewModel.FasViewModel>();
+    }
+}
 <!DOCTYPE html>
 <html>
 <head>
@@ -120,7 +128,7 @@
             </ul>
             <div class="text-gray-400 text-uppercase px-3 px-lg-4 py-4 font-weight-bold small headings-font-family">FASER...demo</div>
             <ul class="sidebar-menu list-unstyled">
-                @foreach (var fas in Model.AllaFaser)
+                @foreach (var fas in allaFaser)
                 {
                     <li class="sidebar-list-item">
                         <a asp-controller="Faser" asp-action="Edit" asp-route-Id="@fas.Id" class="sidebar-link text-muted"><i class="o-database-1 mr-3 text-gray"></i><span>@fas.Name</span></a>

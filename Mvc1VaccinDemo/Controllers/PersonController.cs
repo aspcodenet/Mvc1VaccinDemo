@@ -19,7 +19,7 @@ namespace Mvc1VaccinDemo.Controllers
         public IActionResult Index(string q)
         {
             var viewModel = new PersonIndexViewModel();
-            SetupBaseViewModel(viewModel);
+            SetupBaseViewModel();
 
             viewModel.Personer = _dbContext.Personer
                 .Where(r => q == null || r.Name.Contains(q) || r.PersonalNumber.Contains(q))
@@ -39,7 +39,7 @@ namespace Mvc1VaccinDemo.Controllers
         public IActionResult Edit(int Id)
         {
             var viewModel = new PersonEditViewModel();
-            SetupBaseViewModel(viewModel);
+            SetupBaseViewModel();
 
             var dbPerson = _dbContext.Personer.Include(r=>r.VaccineringsFas).First(r => r.Id == Id);
 
