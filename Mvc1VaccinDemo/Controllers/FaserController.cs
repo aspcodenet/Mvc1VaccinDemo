@@ -46,9 +46,11 @@ namespace Mvc1VaccinDemo.Controllers
         [HttpPost]
         public IActionResult New(VaccineringsFasNewViewModel viewModel)
         {
-            bool finnsIDatabasen = _dbContext.VaccineringsFaser.Any(r => r.Name == viewModel.Name);
-            if (finnsIDatabasen)
-                ModelState.AddModelError("Name", "Finns ju redan?");
+            //viewModel.Name
+            bool redanFinnsIDatabasen = _dbContext.VaccineringsFaser.Any(r=>r.Name == viewModel.Name);
+            
+            if (redanFinnsIDatabasen)
+                ModelState.AddModelError("Name", "Namnet upptaget");
 
             if (ModelState.IsValid)
             {
@@ -82,7 +84,14 @@ namespace Mvc1VaccinDemo.Controllers
         [HttpPost]
         public IActionResult Edit(int Id, VaccineringsFasEditViewModel viewModel)
         {
-
+            //try
+            //{
+            //    new DateTime(viewModel.Year, viewModel.Month, viewModel.Day);
+            //}
+            //catch (Exception e)
+            //{
+            //    ModelState.AddModelError("Day","Det där blev ju inget datum ju");
+            //}
 
             if (ModelState.IsValid)
             {

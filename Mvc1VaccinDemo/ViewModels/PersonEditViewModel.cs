@@ -10,14 +10,17 @@ namespace Mvc1VaccinDemo.ViewModels
     {
         public int Id { get; set; }
 
+        [Required]
         [MaxLength(100)]
         public string Name { get; set; }
 
+        [Required]
         [MaxLength(20)]
         public string PersonalNumber { get; set; }
 
         [MaxLength(100)]
         [DataType(DataType.EmailAddress)]
+        [EmailAddress]
         public string EmailAddress { get; set; }
 
         [MaxLength(100)]

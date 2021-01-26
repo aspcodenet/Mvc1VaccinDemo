@@ -8,7 +8,7 @@ using Microsoft.Data.SqlClient;
 
 namespace Mvc1VaccinDemo.ViewModels
 {
-    public class VaccineringsFasEditViewModel
+    public class VaccineringsFasEditViewModel : IValidatableObject
     {
 
         public int Id { get; set; }
@@ -33,7 +33,6 @@ namespace Mvc1VaccinDemo.ViewModels
         public string Epostigen { get; set; }
 
 
-
         [Range(2010,2030,ErrorMessage = "Mata in ett tal mellan 2010 och 2030 tack")]
         public int Year { get; set; }
 
@@ -43,5 +42,22 @@ namespace Mvc1VaccinDemo.ViewModels
         [Range(1, 31)]
         public int Day { get; set; }
 
+        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
+        {
+            bool ok = true;
+            try
+            {
+                new DateTime(Year, Month, Day);
+            }
+            catch (Exception e)
+            {
+                ok = false;
+            }
+
+            if (!ok)
+                yield return new ValidationResult("Ej giltigt datum",
+                    new[] {"Day"}
+                );
+        }
     }
 }
