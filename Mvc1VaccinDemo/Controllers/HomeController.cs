@@ -24,7 +24,6 @@ namespace Mvc1VaccinDemo.Controllers
         public IActionResult Index()
         {
             var viewModel = new HomeIndexViewModel();
-            SetupBaseViewModel();
 
             viewModel.AntalGjordaVaccineringar = _dbContext.Vaccineringar.Count();
             viewModel.AntalGodkandaVaccin = _dbContext.Vacciner.Count(r=>r.EuOkStatus != null);

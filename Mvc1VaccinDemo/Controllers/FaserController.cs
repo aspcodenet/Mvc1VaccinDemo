@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mvc1VaccinDemo.Data;
@@ -19,8 +21,7 @@ namespace Mvc1VaccinDemo.Controllers
         public IActionResult Index(string q)
         {
             var viewModel = new FaserIndexViewModel();
-            SetupBaseViewModel();
-
+            
             viewModel.Faser = _dbContext.VaccineringsFaser
                 .Where(r => q == null || r.Name.Contains(q))
                 .Select(dbVacc => new FaserIndexViewModel.FasViewModel
@@ -33,10 +34,41 @@ namespace Mvc1VaccinDemo.Controllers
         }
 
 
+        public IActionResult New()
+        {
+            var viewModel = new VaccineringsFasNewViewModel();
+            
+
+
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult New(VaccineringsFasNewViewModel viewModel)
+        {
+            bool finnsIDatabasen = _dbContext.VaccineringsFaser.Any(r => r.Name == viewModel.Name);
+            if (finnsIDatabasen)
+                ModelState.AddModelError("Name", "Finns ju redan?");
+
+            if (ModelState.IsValid)
+            {
+                var fas = new VaccineringsFas();
+                _dbContext.VaccineringsFaser.Add(fas);
+                fas.Name = viewModel.Name;
+                fas.Description = viewModel.Comment;
+                _dbContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
+            return View(viewModel);
+        }
+
+
+
+
+
         public IActionResult Edit(int Id)
         {
             var viewModel = new VaccineringsFasEditViewModel();
-            SetupBaseViewModel();
 
             var dbPerson = _dbContext.VaccineringsFaser.First(r => r.Id == Id);
 
@@ -44,6 +76,22 @@ namespace Mvc1VaccinDemo.Controllers
             viewModel.Name = dbPerson.Name;
             viewModel.Comment = dbPerson.Description;
 
+            return View(viewModel);
+        }
+
+        [HttpPost]
+        public IActionResult Edit(int Id, VaccineringsFasEditViewModel viewModel)
+        {
+
+
+            if (ModelState.IsValid)
+            {
+                var fas = _dbContext.VaccineringsFaser.First(r => r.Id == Id);
+                fas.Name = viewModel.Name;
+                fas.Description = viewModel.Comment;
+                _dbContext.SaveChanges();
+                return RedirectToAction("Index");
+            }
             return View(viewModel);
         }
 

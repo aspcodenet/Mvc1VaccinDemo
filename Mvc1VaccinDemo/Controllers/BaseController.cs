@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Filters;
 using Mvc1VaccinDemo.Data;
 using Mvc1VaccinDemo.ViewModels;
 
@@ -13,7 +14,8 @@ namespace Mvc1VaccinDemo.Controllers
         {
             _dbContext = dbContext;
         }
-        protected void SetupBaseViewModel()
+
+        public override void OnActionExecuting(ActionExecutingContext context)
         {
             ViewData["AllaFaser"] = _dbContext.VaccineringsFaser
                 .Select(dbVacc => new FaserIndexViewModel.FasViewModel
@@ -21,6 +23,8 @@ namespace Mvc1VaccinDemo.Controllers
                     Id = dbVacc.Id,
                     Name = dbVacc.Name
                 }).ToList();
+
+            base.OnActionExecuting(context);
         }
 
     }

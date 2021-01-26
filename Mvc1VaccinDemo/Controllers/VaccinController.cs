@@ -22,7 +22,6 @@ namespace Mvc1VaccinDemo.Controllers
         public IActionResult Index(string q)
         {
             var viewModel = new VaccinIndexViewModel();
-            SetupBaseViewModel();
 
             viewModel.Vacciner = _dbContext.Vacciner.Include(r=>r.Supplier)
                 .Where(r=> q == null || r.Namn.Contains(q) || r.Supplier.Name.Contains(q) )
@@ -41,7 +40,6 @@ namespace Mvc1VaccinDemo.Controllers
         public IActionResult New()
         {
             var viewModel = new VaccinNewViewModel();
-            SetupBaseViewModel();
             viewModel.Types = GetTypeSelectListItems();
             viewModel.AllSuppliers = GetSuppliersListItems();
 
@@ -67,14 +65,12 @@ namespace Mvc1VaccinDemo.Controllers
             }
             viewModel.AllSuppliers = GetSuppliersListItems();
             viewModel.Types = GetTypeSelectListItems();
-            SetupBaseViewModel();
             return View(viewModel);
         }
 
         public IActionResult Edit(int Id)
         {
             var viewModel = new VaccinEditViewModel();
-            SetupBaseViewModel();
 
             var dbVaccin = _dbContext.Vacciner.Include(p=>p.Supplier).First(r => r.Id == Id);
 
@@ -126,7 +122,6 @@ namespace Mvc1VaccinDemo.Controllers
 
             viewModel.AllSuppliers = GetSuppliersListItems();
             viewModel.Types = GetTypeSelectListItems();
-            SetupBaseViewModel();
             return View(viewModel);
         }
         /*
