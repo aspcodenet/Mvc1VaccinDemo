@@ -10,10 +10,53 @@ namespace Mvc1VaccinDemo.Data
         public static void SeedData(ApplicationDbContext dbContext, UserManager<IdentityUser> userManager)
         {
             dbContext.Database.Migrate();
+
+            SeedRoles(dbContext);
+            SeedUsers(userManager);
+
             SeedSuppliers(dbContext);
             SeedVaccins(dbContext); //Color, Län , kommuner
             SeedVaccinationsFaser(dbContext);
             SeedPersoner(dbContext);
+        }
+
+        private static void SeedUsers(UserManager<IdentityUser> userManager)
+        {
+            AddUserIfNotExists(userManager, "admin@hejhopp.nl", "Hejsan123#", new string[]{"Admin"});
+            AddUserIfNotExists(userManager, "nurse1@hejhopp.nl", "Hejsan123#", new string[] { "Nurse" });
+            AddUserIfNotExists(userManager, "nurse2@hejhopp.nl", "Hejsan123#", new string[] { "Nurse", 
+                "Admin" });
+        }
+
+        private static void AddUserIfNotExists(UserManager<IdentityUser> userManager, 
+            string userName, string password, string[] roles)
+        {
+            if (userManager.FindByEmailAsync(userName).Result != null) return;
+
+            var user = new IdentityUser
+            {
+                UserName = userName,
+                Email = userName,
+                EmailConfirmed = true
+            };
+            var result = userManager.CreateAsync(user, password).Result;
+            var r = userManager.AddToRolesAsync(user, roles).Result;
+        }
+
+        private static void SeedRoles(ApplicationDbContext dbContext)
+        {
+            var role = dbContext.Roles.FirstOrDefault(r => r.Name == "Admin");
+            if (role == null)
+            {
+                dbContext.Roles.Add(new IdentityRole { Name = "Admin", NormalizedName = "Admin" });
+            }
+            role = dbContext.Roles.FirstOrDefault(r => r.Name == "Nurse");
+            if (role == null)
+            {
+                dbContext.Roles.Add(new IdentityRole { Name = "Nurse", NormalizedName = "Nurse" });
+            }
+            dbContext.SaveChanges();
+
         }
 
         private static void SeedPersoner(ApplicationDbContext dbContext)

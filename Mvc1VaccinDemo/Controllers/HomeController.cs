@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Server.HttpSys;
 using Mvc1VaccinDemo.Data;
 using Mvc1VaccinDemo.ViewModels;
 
@@ -14,11 +16,14 @@ namespace Mvc1VaccinDemo.Controllers
     public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly SignInManager<IdentityUser> _signInManager;
 
-        public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext)
+        public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext, 
+            SignInManager<IdentityUser> signInManager)
             : base(dbContext)
         {
             _logger = logger;
+            _signInManager = signInManager;
         }
 
         public IActionResult Index()
@@ -38,6 +43,12 @@ namespace Mvc1VaccinDemo.Controllers
         public IActionResult Privacy()
         {
             return View();
+        }
+
+        public IActionResult Logout()
+        {
+            _signInManager.SignOutAsync().Wait();
+            return RedirectToAction("Index");
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

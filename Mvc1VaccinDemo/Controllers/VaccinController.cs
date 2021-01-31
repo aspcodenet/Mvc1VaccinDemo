@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Connections.Features;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,8 +18,10 @@ namespace Mvc1VaccinDemo.Controllers
         }
 
 
+        // Kunna nås av "Admin"
+        // men INTE av "Nurse" 
         //
-        // Vaccin   Vaccin/Index
+        [Authorize(Roles="Admin")]
         public IActionResult Index(string q)
         {
             var viewModel = new VaccinIndexViewModel();
@@ -37,6 +40,7 @@ namespace Mvc1VaccinDemo.Controllers
 
 
 
+        [Authorize(Roles = "Admin")]
         public IActionResult New()
         {
             var viewModel = new VaccinNewViewModel();
@@ -46,6 +50,7 @@ namespace Mvc1VaccinDemo.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
 
         public IActionResult New(VaccinNewViewModel viewModel)
@@ -68,6 +73,7 @@ namespace Mvc1VaccinDemo.Controllers
             return View(viewModel);
         }
 
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int Id)
         {
             var viewModel = new VaccinEditViewModel();
@@ -104,6 +110,7 @@ namespace Mvc1VaccinDemo.Controllers
         }
 
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Edit(int Id, VaccinEditViewModel viewModel)
         {
