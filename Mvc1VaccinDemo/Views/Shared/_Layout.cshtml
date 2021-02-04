@@ -160,7 +160,10 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6 text-center text-md-left text-primary">
-                            <p class="mb-2 mb-md-0">Your company &copy; 2018-2020</p>
+                            <form asp-controller="Vaccin" asp-action="SearchResult" method="get">
+                                <input type="text" name="q" class="form-control" />
+                                <button type="submit" class="btn btn-primary">Sök</button>
+                            </form>
                         </div>
                         <div class="col-md-6 text-center text-md-right text-gray-400">
                             <p class="mb-0">Design by <a href="https://bootstrapious.com/admin-templates" class="external text-gray-400">Bootstrapious</a></p>

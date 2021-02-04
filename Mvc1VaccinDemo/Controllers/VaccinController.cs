@@ -22,6 +22,25 @@ namespace Mvc1VaccinDemo.Controllers
         }
 
 
+        public IActionResult SearchResult(string q)
+        {
+            var viewModel = new VaccinSearchResultViewModel();
+
+            viewModel.Vacciner = _dbContext.Vacciner.Include(r => r.Supplier)
+                .Where(r => q == null || r.Namn.Contains(q) || r.Supplier.Name.Contains(q))
+                .Select(dbVacc => new VaccinViewModel
+                {
+                    Id = dbVacc.Id,
+                    Supplier = dbVacc.Supplier.Name,
+                    Name = dbVacc.Namn
+                }).ToList();
+
+
+            return View(viewModel);
+
+        }
+
+
         // Kunna nås av "Admin"
         // men INTE av "Nurse" 
         //
