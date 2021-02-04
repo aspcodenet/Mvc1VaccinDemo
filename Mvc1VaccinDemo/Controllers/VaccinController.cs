@@ -26,6 +26,7 @@ namespace Mvc1VaccinDemo.Controllers
         // men INTE av "Nurse" 
         //
         //[Authorize(Roles="Admin")]
+        //   /Vaccin?q=qwer
         public IActionResult Index(string q)
         {
             var viewModel = new VaccinIndexViewModel();
@@ -38,11 +39,23 @@ namespace Mvc1VaccinDemo.Controllers
                 Supplier = dbVacc.Supplier.Name,
                 Name = dbVacc.Namn
             }).ToList();
-            
+
+
             return View(viewModel);
         }
 
+        public IActionResult _SelectVaccine(int SelectedId)
+        {
+            var viewModel = new SelectVaccineViewModel();
+            var selectedVaccin = _dbContext.Vacciner.First(r => r.Id == SelectedId);
+            viewModel.SelectedVaccinName = selectedVaccin.Namn;
+            var result = _orderedVaccinService.GetTotal(selectedVaccin.Namn);
+            viewModel.FirstDeliveryDate = result.FirstDeliveryDate;
+            viewModel.NrInFirstDelivery = result.NrInFirstDelivery;
+            viewModel.NrOrdered = result.NrOrdered;
 
+            return View(viewModel);
+        }
 
         [Authorize(Roles = "Admin")]
         public IActionResult New()
