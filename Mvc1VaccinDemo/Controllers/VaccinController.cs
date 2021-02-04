@@ -6,22 +6,26 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Mvc1VaccinDemo.Data;
+using Mvc1VaccinDemo.Services;
 using Mvc1VaccinDemo.ViewModels;
 
 namespace Mvc1VaccinDemo.Controllers
 {
     public class VaccinController : BaseController
     {
-        public VaccinController(ApplicationDbContext dbContext)
+        private readonly IOrderedVaccinService _orderedVaccinService;
+
+        public VaccinController(ApplicationDbContext dbContext, IOrderedVaccinService orderedVaccinService)
             : base(dbContext)
         {
+            _orderedVaccinService = orderedVaccinService;
         }
 
 
         // Kunna nås av "Admin"
         // men INTE av "Nurse" 
         //
-        [Authorize(Roles="Admin")]
+        //[Authorize(Roles="Admin")]
         public IActionResult Index(string q)
         {
             var viewModel = new VaccinIndexViewModel();
