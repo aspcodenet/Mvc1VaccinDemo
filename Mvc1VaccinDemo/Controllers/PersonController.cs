@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -16,6 +17,7 @@ namespace Mvc1VaccinDemo.Controllers
         }
 
         // GET
+        [Authorize(Roles = "Admin, Nurse")]
         public IActionResult Index(string q)
         {
            var viewModel = new PersonIndexViewModel();
@@ -34,7 +36,24 @@ namespace Mvc1VaccinDemo.Controllers
         }
 
 
+        [Authorize(Roles = "Admin, Nurse")]
+        public IActionResult _SelectPerson(int id)
+        {
+            var viewModel = new SelectPersonViewModel();
+            var p = _dbContext.Personer.Include(p=>p.VaccineringsFas).First(r => r.Id == id);
 
+            viewModel.Name = p.Name;
+            viewModel.PersonalNumber = p.PersonalNumber;
+            viewModel.NextVaccinDate = p.PreliminaryNextVaccinDate.HasValue
+                ? p.PreliminaryNextVaccinDate.Value.ToString("yyyy-MM-dd")
+                : "";
+            viewModel.VaccineringsFas = p.VaccineringsFas.Name;
+            return View(viewModel);
+        }
+
+
+
+        [Authorize(Roles = "Admin")]
         public IActionResult Edit(int Id)
         {
             var viewModel = new PersonEditViewModel();

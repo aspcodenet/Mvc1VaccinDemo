@@ -44,7 +44,7 @@ namespace Mvc1VaccinDemo.Controllers
         // Kunna nås av "Admin"
         // men INTE av "Nurse" 
         //
-        //[Authorize(Roles="Admin")]
+        [Authorize(Roles="Admin")]
         //   /Vaccin?q=qwer
         public IActionResult Index(string q)
         {

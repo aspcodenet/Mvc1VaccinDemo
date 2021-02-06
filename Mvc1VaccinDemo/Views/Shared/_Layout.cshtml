@@ -160,9 +160,10 @@
                 <div class="container-fluid">
                     <div class="row">
                         <div class="col-md-6 text-center text-md-left text-primary">
-                            <form asp-controller="Vaccin" asp-action="SearchResult" method="get">
+                            <p class="mb-2 mb-md-0">Global sök:</p>
+                            <form class="form-inline" asp-controller="Vaccin" asp-action="SearchResult" method="get">
                                 <input type="text" name="q" class="form-control" />
-                                <button type="submit" class="btn btn-primary">Sök</button>
+                                    <button type="submit" class="btn btn-primary">Sök</button>
                             </form>
                         </div>
                         <div class="col-md-6 text-center text-md-right text-gray-400">
