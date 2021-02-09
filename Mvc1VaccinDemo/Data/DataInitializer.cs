@@ -19,7 +19,7 @@ namespace Mvc1VaccinDemo.Data
             SeedVaccinationsFaser(dbContext);
             SeedPersoner(dbContext);
         }
-
+            
         private static void SeedUsers(UserManager<IdentityUser> userManager)
         {
             AddUserIfNotExists(userManager, "admin@hejhopp.nl", "Hejsan123#", new string[]{"Admin"});
