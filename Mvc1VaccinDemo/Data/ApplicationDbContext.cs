@@ -18,5 +18,6 @@ namespace Mvc1VaccinDemo.Data
         public DbSet<Person> Personer { get; set; }
         public DbSet<Vaccinering> Vaccineringar { get; set; }
         public DbSet<VaccineringsFas> VaccineringsFaser { get; set; }
+        public DbSet<Myndighet> Myndigheter { get; set; }
     }
 }

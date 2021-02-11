@@ -11,5 +11,6 @@ namespace Mvc1VaccinDemo.Data
 
         public string Description { get; set; }
 
+        public Myndighet AnsvarigMyndighet { get; set; }
     }
 }

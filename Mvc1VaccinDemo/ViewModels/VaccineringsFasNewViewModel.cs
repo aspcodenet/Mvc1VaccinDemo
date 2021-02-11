@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace Mvc1VaccinDemo.ViewModels
 {
@@ -10,6 +12,12 @@ namespace Mvc1VaccinDemo.ViewModels
 
         [Required]
         public string Comment { get; set; }
+
+        [Range(1, 1000000)]
+        public int SelectedMyndighetsId { get; set; }
+
+        public List<SelectListItem> AllaMyndigheter { get; set; }
+
 
     }
 }

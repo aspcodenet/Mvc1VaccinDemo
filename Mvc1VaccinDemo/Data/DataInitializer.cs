@@ -16,10 +16,12 @@ namespace Mvc1VaccinDemo.Data
 
             SeedSuppliers(dbContext);
             SeedVaccins(dbContext); //Color, Län , kommuner
+            SeedMyndighet(dbContext);
             SeedVaccinationsFaser(dbContext);
             SeedPersoner(dbContext);
         }
-            
+
+
         private static void SeedUsers(UserManager<IdentityUser> userManager)
         {
             AddUserIfNotExists(userManager, "admin@hejhopp.nl", "Hejsan123#", new string[]{"Admin"});
@@ -42,6 +44,26 @@ namespace Mvc1VaccinDemo.Data
             var result = userManager.CreateAsync(user, password).Result;
             var r = userManager.AddToRolesAsync(user, roles).Result;
         }
+
+        private static void SeedMyndighet(ApplicationDbContext dbContext)
+        {
+            var role = dbContext.Myndigheter.FirstOrDefault(r => r.Name == "FHM");
+            if (role == null)
+            {
+                dbContext.Myndigheter.Add(new Myndighet() { Name = "FHM" });
+            }
+            role = dbContext.Myndigheter.FirstOrDefault(r => r.Name == "Socialstyrelsen");
+            if (role == null)
+            {
+                dbContext.Myndigheter.Add(new Myndighet() { Name = "Socialstyrelsen" });
+            }
+            role = dbContext.Myndigheter.FirstOrDefault(r => r.Name == "Regeringen");
+            if (role == null)
+            {
+                dbContext.Myndigheter.Add(new Myndighet() { Name = "Regeringen" });
+            }
+        }
+
 
         private static void SeedRoles(ApplicationDbContext dbContext)
         {

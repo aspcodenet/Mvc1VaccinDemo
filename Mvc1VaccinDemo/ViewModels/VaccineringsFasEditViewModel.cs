@@ -4,11 +4,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using Microsoft.AspNetCore.Mvc.Formatters;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.Data.SqlClient;
 
 namespace Mvc1VaccinDemo.ViewModels
 {
-    public class VaccineringsFasEditViewModel : IValidatableObject
+    public class VaccineringsFasEditViewModel 
     {
 
         public int Id { get; set; }
@@ -18,46 +19,16 @@ namespace Mvc1VaccinDemo.ViewModels
         [MinLength(2, ErrorMessage = "Du har völ ett längre namn än så???")]
         public string Name { get; set; }
 
+        
         [Required(ErrorMessage = "Skriv in kommentar tack")]
         public string Comment { get; set; }
 
+        [Range(1,1000000)]
+        public int SelectedMyndighetsId { get; set; }
+
+        public List<SelectListItem> AllaMyndigheter { get; set; }
 
 
 
-
-        [EmailAddress]
-        public string Epost { get; set; }
-
-        [EmailAddress]
-        [Compare("Epost", ErrorMessage = "Måste vara samma som EMail")]
-        public string Epostigen { get; set; }
-
-
-        [Range(2010,2030,ErrorMessage = "Mata in ett tal mellan 2010 och 2030 tack")]
-        public int Year { get; set; }
-
-        [Range(1,12)]
-        public int Month { get; set; }
-
-        [Range(1, 31)]
-        public int Day { get; set; }
-
-        public IEnumerable<ValidationResult> Validate(ValidationContext validationContext)
-        {
-            bool ok = true;
-            try
-            {
-                new DateTime(Year, Month, Day);
-            }
-            catch (Exception e)
-            {
-                ok = false;
-            }
-
-            if (!ok)
-                yield return new ValidationResult("Ej giltigt datum",
-                    new[] {"Day"}
-                );
-        }
     }
 }

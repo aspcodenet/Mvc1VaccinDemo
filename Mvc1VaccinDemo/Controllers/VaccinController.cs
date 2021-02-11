@@ -45,7 +45,7 @@ namespace Mvc1VaccinDemo.Controllers
         // Kunna nås av "Admin"
         // men INTE av "Nurse" 
         //
-        [Authorize(Roles="Admin")]
+        //[Authorize(Roles="Admin")]
         //   /Vaccin?q=qwer
         public IActionResult Index(string q)
         {
@@ -77,7 +77,7 @@ namespace Mvc1VaccinDemo.Controllers
             return View(viewModel);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult New()
         {
             var viewModel = new VaccinNewViewModel();
@@ -87,7 +87,7 @@ namespace Mvc1VaccinDemo.Controllers
             return View(viewModel);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
 
         public IActionResult New(VaccinNewViewModel viewModel)
@@ -110,7 +110,7 @@ namespace Mvc1VaccinDemo.Controllers
             return View(viewModel);
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult Edit(int Id)
         {
             var viewModel = new VaccinEditViewModel();
@@ -147,7 +147,7 @@ namespace Mvc1VaccinDemo.Controllers
         }
 
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Edit(int Id, VaccinEditViewModel viewModel)
         {

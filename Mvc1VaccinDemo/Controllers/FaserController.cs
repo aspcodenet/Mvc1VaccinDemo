@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Mvc1VaccinDemo.Data;
 using Mvc1VaccinDemo.Services.Krisinformation;
@@ -38,9 +39,7 @@ namespace Mvc1VaccinDemo.Controllers
         public IActionResult New()
         {
             var viewModel = new VaccineringsFasNewViewModel();
-            
-
-
+            viewModel.AllaMyndigheter = GetAllMyndigheter();
             return View(viewModel);
         }
 
@@ -59,9 +58,11 @@ namespace Mvc1VaccinDemo.Controllers
                 _dbContext.VaccineringsFaser.Add(fas);
                 fas.Name = viewModel.Name;
                 fas.Description = viewModel.Comment;
+                fas.AnsvarigMyndighet = _dbContext.Myndigheter.First(r => r.Id == viewModel.SelectedMyndighetsId);
                 _dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
+            viewModel.AllaMyndigheter = GetAllMyndigheter();
             return View(viewModel);
         }
 
@@ -73,35 +74,39 @@ namespace Mvc1VaccinDemo.Controllers
         {
             var viewModel = new VaccineringsFasEditViewModel();
 
-            var dbPerson = _dbContext.VaccineringsFaser.First(r => r.Id == Id);
+            var dbPerson = _dbContext.VaccineringsFaser.Include(p=>p.AnsvarigMyndighet).First(r => r.Id == Id);
 
             viewModel.Id = dbPerson.Id;
             viewModel.Name = dbPerson.Name;
             viewModel.Comment = dbPerson.Description;
+            if(dbPerson.AnsvarigMyndighet != null)
+                viewModel.SelectedMyndighetsId = dbPerson.AnsvarigMyndighet.Id;
+
+            viewModel.AllaMyndigheter = GetAllMyndigheter(); 
 
             return View(viewModel);
+        }
+
+        private List<SelectListItem> GetAllMyndigheter()
+        {
+            var l = _dbContext.Myndigheter.Select(d => new SelectListItem(d.Name, d.Id.ToString())).ToList();
+            l.Insert(0,new SelectListItem("*** Välj en","0"));
+            return l;
         }
 
         [HttpPost]
         public IActionResult Edit(int Id, VaccineringsFasEditViewModel viewModel)
         {
-            //try
-            //{
-            //    new DateTime(viewModel.Year, viewModel.Month, viewModel.Day);
-            //}
-            //catch (Exception e)
-            //{
-            //    ModelState.AddModelError("Day","Det där blev ju inget datum ju");
-            //}
-
             if (ModelState.IsValid)
             {
                 var fas = _dbContext.VaccineringsFaser.First(r => r.Id == Id);
                 fas.Name = viewModel.Name;
                 fas.Description = viewModel.Comment;
+                fas.AnsvarigMyndighet = _dbContext.Myndigheter.First(r => r.Id == viewModel.SelectedMyndighetsId);
                 _dbContext.SaveChanges();
                 return RedirectToAction("Index");
             }
+            viewModel.AllaMyndigheter = GetAllMyndigheter();
             return View(viewModel);
         }
 
