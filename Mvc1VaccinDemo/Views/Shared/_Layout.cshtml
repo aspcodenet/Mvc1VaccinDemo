@@ -1,4 +1,5 @@
 ﻿@using Microsoft.AspNetCore.Identity
+@using Mvc1VaccinDemo.Services.Krisinformation
 @using Mvc1VaccinDemo.ViewModels
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
@@ -9,6 +10,14 @@
     {
         allaFaser = new List<FaserIndexViewModel.FasViewModel>();
     }
+
+    var allaArtiklar = (List<KrisInfo>) ViewData["SenasteArtiklar"];
+    if (allaArtiklar == null)
+    {
+        allaArtiklar = new List<KrisInfo>();
+    }
+
+
 
 
     string activeController = "";
@@ -119,6 +128,20 @@
                 <li class="sidebar-list-item"><a asp-controller="Vaccin" asp-action="Index" class="sidebar-link text-muted@(activeController == "Vaccin" ? " active" : "")"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Vacciner</span></a></li>
                 <li class="sidebar-list-item"><a asp-controller="Person" asp-action="Index" class="sidebar-link text-muted@(activeController == "Person" ? " active" : "")"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Personer</span></a></li>
                 <li class="sidebar-list-item"><a asp-controller="Faser" asp-action="Index" class="sidebar-link text-muted@(activeController == "Faser" ? " active" : "")"><i class="o-sales-up-1 mr-3 text-gray"></i><span>Vaccinationsfaser</span></a></li>
+                
+                
+                <li class="sidebar-list-item"><a href="#" data-toggle="collapse" data-target="#pages" aria-expanded="false" aria-controls="pages" class="sidebar-link text-muted"><i class="o-wireframe-1 mr-3 text-gray"></i><span>Artiklar</span></a>
+                    <div id="pages" class="collapse">
+                        <ul class="sidebar-menu list-unstyled border-left border-primary border-thick">
+                            @foreach (var art in allaArtiklar)
+                            {
+                                <li class="sidebar-list-item"><a asp-controller="Article" asp-action="Show" asp-route-id="@art.Id" class="sidebar-link text-muted pl-lg-5">@art.Title</a></li>
+                            }
+                        </ul>
+                    </div>
+                </li>                
+                
+
                 @if (SignInManager.IsSignedIn(User))
                 {
     <li class="sidebar-list-item">

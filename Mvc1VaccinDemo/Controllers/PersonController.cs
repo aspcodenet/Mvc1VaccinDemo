@@ -5,14 +5,15 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Mvc1VaccinDemo.Data;
+using Mvc1VaccinDemo.Services.Krisinformation;
 using Mvc1VaccinDemo.ViewModels;
 
 namespace Mvc1VaccinDemo.Controllers
 {
     public class PersonController : BaseController
     {
-        public PersonController(ApplicationDbContext dbContext)
-            : base(dbContext)
+        public PersonController(ApplicationDbContext dbContext, IKrisInfoService krisInfoService)
+            : base(dbContext, krisInfoService)
         {
         }
 

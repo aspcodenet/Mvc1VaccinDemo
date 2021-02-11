@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Mvc1VaccinDemo.Data;
 using Mvc1VaccinDemo.Services;
+using Mvc1VaccinDemo.Services.Krisinformation;
 using Mvc1VaccinDemo.ViewModels;
 
 namespace Mvc1VaccinDemo.Controllers
@@ -15,8 +16,8 @@ namespace Mvc1VaccinDemo.Controllers
     {
         private readonly IOrderedVaccinService _orderedVaccinService;
 
-        public VaccinController(ApplicationDbContext dbContext, IOrderedVaccinService orderedVaccinService)
-            : base(dbContext)
+        public VaccinController(ApplicationDbContext dbContext, IOrderedVaccinService orderedVaccinService, IKrisInfoService krisInfoService)
+            : base(dbContext, krisInfoService)
         {
             _orderedVaccinService = orderedVaccinService;
         }

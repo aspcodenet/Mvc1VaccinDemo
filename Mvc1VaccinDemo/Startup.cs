@@ -13,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Mvc1VaccinDemo.Services;
+using Mvc1VaccinDemo.Services.Krisinformation;
 
 namespace Mvc1VaccinDemo
 {
@@ -29,6 +30,7 @@ namespace Mvc1VaccinDemo
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddTransient<IOrderedVaccinService,OrderedVaccinService>();
+            services.AddTransient<IKrisInfoService, KrisInfoService>();
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
@@ -65,6 +67,14 @@ namespace Mvc1VaccinDemo
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute(
+                    name: "dump",
+                    pattern: "dump.sql",
+                    defaults:new {controller="Home",action="Dump"});
+                endpoints.MapControllerRoute(
+                    name: "dump2",
+                    pattern: "backup.zip",
+                    defaults: new { controller = "Home", action = "Backup" });
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -6,9 +6,12 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Hosting.Server.Features;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Server.HttpSys;
 using Mvc1VaccinDemo.Data;
+using Mvc1VaccinDemo.Services.Krisinformation;
 using Mvc1VaccinDemo.ViewModels;
 
 namespace Mvc1VaccinDemo.Controllers
@@ -19,8 +22,8 @@ namespace Mvc1VaccinDemo.Controllers
         private readonly SignInManager<IdentityUser> _signInManager;
 
         public HomeController(ILogger<HomeController> logger, ApplicationDbContext dbContext, 
-            SignInManager<IdentityUser> signInManager)
-            : base(dbContext)
+            SignInManager<IdentityUser> signInManager, IKrisInfoService krisInfoService)
+            : base(dbContext, krisInfoService)
         {
             _logger = logger;
             _signInManager = signInManager;
@@ -39,6 +42,21 @@ namespace Mvc1VaccinDemo.Controllers
             viewModel.SenastGodkandVaccin = senast.Namn;
             return View(viewModel);
         }
+
+
+        public IActionResult Dump()
+        {
+            return Content(@"insert into creditcard(cc,csv,name) values(
+'1212-1222222', '877','Stefan Holmberg'
+)");
+        }
+
+
+        public IActionResult Backup()
+        {
+            return File(@"files\backup.zip", "application/zip");
+        }
+
 
         public IActionResult Privacy()
         {

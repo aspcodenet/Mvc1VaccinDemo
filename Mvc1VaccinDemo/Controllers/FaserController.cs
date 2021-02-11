@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Mvc1VaccinDemo.Data;
+using Mvc1VaccinDemo.Services.Krisinformation;
 using Mvc1VaccinDemo.ViewModels;
 
 namespace Mvc1VaccinDemo.Controllers
@@ -11,8 +12,8 @@ namespace Mvc1VaccinDemo.Controllers
     public class FaserController : BaseController
     {
 
-        public FaserController(ApplicationDbContext dbContext) 
-            :base(dbContext)
+        public FaserController(ApplicationDbContext dbContext, IKrisInfoService krisInfoService) 
+            :base(dbContext, krisInfoService)
 
         {
         }
